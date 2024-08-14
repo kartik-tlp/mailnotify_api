@@ -1,0 +1,50 @@
+const app = require("../app");
+const http = require('http');
+const socketIO = require('socket.io');
+
+/**
+ * Get port from environment and store in Express.
+ */
+var port = process.env.PORT ;
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app);
+
+/**
+ * Setup Socket.io
+ */
+const io = socketIO(server);
+
+/**
+ * Handle socket connections
+ */
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('email-status', (status) => {
+    console.log('Received status:', status);
+    io.emit('status-update', status);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+function onError(error) {
+  console.error('Server error:', error);
+}
+
+function onListening() {
+  console.log(`Server is listening on port ${port}`);
+}

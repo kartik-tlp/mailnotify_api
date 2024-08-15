@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer")
 require("dotenv").config({ path: "./.env" })
 
 exports.sendmail = async function (postData) {
+    
     return new Promise(function (resolve, reject) {
         const transport = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -15,9 +16,9 @@ exports.sendmail = async function (postData) {
         })
 
         const mailoptions = {
-            from: postData.from,
-            to: postData.to,
-            subject: postData.mailsubject,
+            from: postData.sender_mail,
+            to: postData.receiver_mail,
+            subject: postData.subject,
             html: postData.content,
         }
         transport.sendMail(mailoptions, function (err, info) {

@@ -22,17 +22,13 @@ const io = socketIO(server);
  * Handle socket connections
  */
 io.on('connection', (socket) => {
-  console.log('A user connected');
+    console.log('A user connected');
 
-  socket.on('email-status', (status) => {
-    console.log('Received status:', status);
-    io.emit('status-update', status);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
 });
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -48,3 +44,4 @@ function onError(error) {
 function onListening() {
   console.log(`Server is listening on port ${port}`);
 }
+// module.exports = io;

@@ -6,7 +6,7 @@ router.post("/composeMail" , userController.addUserMailData)
 
 router.post("/sendMail" , userController.sendMail)
 
-router.post("/getEmailStatus " , userController.getEmailStatus )
+router.post("/getEmailStatus" , userController.getEmailStatus )
 
 
 

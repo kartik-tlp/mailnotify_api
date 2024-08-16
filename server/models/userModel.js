@@ -2,10 +2,6 @@ const db = require("../config/db")
 const moment = require("moment")
 
 
-
-
-
-
 var User = function () {
 
 }
@@ -42,21 +38,12 @@ User.addUserMailData = function (postData) {
     })
 }
 
-User.updateMailStatus = function (postData) {
-    // console.log("postData",postData);
-    console.log("status->",postData);
-    
+User.getEmailStatus = function (postData) {
 
     return new Promise(function (resolve, reject) {
-        const nowDate =  moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
 
-        const updatedValue = {
-            status : postData.status || '',
-            updated_on : nowDate
-        }
-
-        const queryString = "UPDATE ??  SET ? WHERE id = ?"
-        const values = ["user_email_data",updatedValue,postData.email_id]
+        var queryString = "SELECT id, status FROM  user_email_data WHERE id = ?"
+        const values = [postData.emailId]
         db.query(queryString,values, function (error, response) {
             if (error) {
                 reject(error)

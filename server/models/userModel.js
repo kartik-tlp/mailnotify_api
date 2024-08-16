@@ -2,24 +2,18 @@ const db = require("../config/db")
 const moment = require("moment")
 
 
-
-
-
-
 var User = function () {
 
 }
 
 User.addUserMailData = function (postData) {
 
-    
-
     return new Promise(function (resolve, reject) {
         const nowDate =  moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
 
         const insertedData = {
             receiver_mail : postData.to || '',
-            sender_mail : postData.from || '',
+            sender_mail : process.env.SMTP_MAIl,
             subject : postData.mailsubject || '',
             content : postData.content || '',
             status :  'Pending',
@@ -42,24 +36,25 @@ User.addUserMailData = function (postData) {
     })
 }
 
-User.updateMailStatus = function (postData) {
-    // console.log("postData",postData);
-    console.log("status->",postData);
-    
+User.getEmailStatus = function (postData) {
 
     return new Promise(function (resolve, reject) {
-        const nowDate =  moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
 
-        const updatedValue = {
-            status : postData.status || '',
-            updated_on : nowDate
+        var whereCondition = ''
+
+        if(postData.emailId){
+            whereCondition += `AND(id = '${postData.emailId}')`
+        }
+        if(postData.status){
+            whereCondition += `AND(status = '${postData.status}')`
         }
 
-        const queryString = "UPDATE ??  SET ? WHERE id = ?"
-        const values = ["user_email_data",updatedValue,postData.email_id]
-        db.query(queryString,values, function (error, response) {
+        var queryString = `SELECT id,receiver_mail, status FROM  user_email_data WHERE 1 = 1 ${whereCondition}`
+
+        db.query(queryString, function (error, response) {
             if (error) {
                 reject(error)
+                
             } else {
                 resolve(response)
             }

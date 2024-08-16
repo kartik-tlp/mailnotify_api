@@ -2,10 +2,16 @@
 const db = require("../config/db")
 const redis = require("../config/redisConnection")
 const User = require("../models/userModel")
+const {matchedData,validationResult} = require('express-validator');
 
 
 
 exports.addUserMailData = async function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const x = matchedData(req);
+        return res.send({ message: 'Invalid Values', status: 'invalid', err: errors.mapped() });
+    }
     try {
         db.beginTransaction()
 
@@ -43,6 +49,11 @@ exports.addUserMailData = async function (req, res) {
 }
 
 exports.sendMail = async function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const x = matchedData(req);
+        return res.send({ message: 'Invalid Values', status: 'invalid', err: errors.mapped() });
+    }
     try {
 
         const getMailData = await User.getMailData(req.body)
@@ -84,6 +95,7 @@ exports.sendMail = async function (req, res) {
 }
 
 exports.getEmailStatus  = async function (req,res) {
+  
     try {
         const getEmailStatus = await User.getEmailStatus(req.body)
         if(getEmailStatus){
@@ -121,4 +133,26 @@ exports.getEmailStatus  = async function (req,res) {
     
 }
 
+// exports.resendMails = async function(req,res){
+//     try {
+//         const getUnsendMails = await User.getUnsendMails(req.body)
+
+     
+
+
+        
+//     } catch (e) {
+//         var err = {
+//             code: e.code,
+//             sqlMessage: e.sqlMessage
+//         };
+//         res.status(200).json({
+//             message: "Error Occured",
+//             status: "error",
+//             err: err
+//         });
+//         return false;
+        
+//     }
+// }
 

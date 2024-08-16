@@ -3,8 +3,7 @@
 ## Overview
 A Node.js-based system for processing and sending emails.
 
-## Installation
-1. Clone the repository:https://github.com/kartik-tlp/mailnotify_api.git
+
 
 # Install dependencies:
 

@@ -13,7 +13,7 @@ User.addUserMailData = function (postData) {
 
         const insertedData = {
             receiver_mail : postData.to || '',
-            sender_mail : postData.from || '',
+            sender_mail : process.env.SMTP_MAIl,
             subject : postData.mailsubject || '',
             content : postData.content || '',
             status :  'Pending',

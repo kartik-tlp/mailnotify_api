@@ -8,8 +8,6 @@ var User = function () {
 
 User.addUserMailData = function (postData) {
 
-    
-
     return new Promise(function (resolve, reject) {
         const nowDate =  moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
 
@@ -42,11 +40,21 @@ User.getEmailStatus = function (postData) {
 
     return new Promise(function (resolve, reject) {
 
-        var queryString = "SELECT id, status FROM  user_email_data WHERE id = ?"
-        const values = [postData.emailId]
-        db.query(queryString,values, function (error, response) {
+        var whereCondition = ''
+
+        if(postData.emailId){
+            whereCondition += `AND(id = '${postData.emailId}')`
+        }
+        if(postData.status){
+            whereCondition += `AND(status = '${postData.status}')`
+        }
+
+        var queryString = `SELECT id,receiver_mail, status FROM  user_email_data WHERE 1 = 1 ${whereCondition}`
+
+        db.query(queryString, function (error, response) {
             if (error) {
                 reject(error)
+                
             } else {
                 resolve(response)
             }

@@ -84,6 +84,7 @@ exports.sendMail = async function (req, res) {
 }
 
 exports.getEmailStatus  = async function (req,res) {
+  
     try {
         const getEmailStatus = await User.getEmailStatus(req.body)
         if(getEmailStatus){
@@ -121,4 +122,26 @@ exports.getEmailStatus  = async function (req,res) {
     
 }
 
+// exports.resendMails = async function(req,res){
+//     try {
+//         const getUnsendMails = await User.getUnsendMails(req.body)
+
+     
+
+
+        
+//     } catch (e) {
+//         var err = {
+//             code: e.code,
+//             sqlMessage: e.sqlMessage
+//         };
+//         res.status(200).json({
+//             message: "Error Occured",
+//             status: "error",
+//             err: err
+//         });
+//         return false;
+        
+//     }
+// }
 
